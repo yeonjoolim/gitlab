@@ -1,0 +1,140 @@
+2019/10/07 10:56:00 server: listening
+2019/10/07 10:57:52 server: accepted from 192.168.1.40:38784
+2019/10/07 10:57:52 Certifiaction correct!
+2019/10/07 10:57:52 server: conn: waiting
+2019/10/07 10:57:52 server: conn: read: 454f46
+2019/10/07 12:06:05 server: accepted from 192.168.1.40:35944
+2019/10/07 12:06:05 Certifiaction correct!
+2019/10/07 12:06:05 server: conn: waiting
+2019/10/07 12:06:05 server: conn: read: 454f46
+2019/10/07 12:06:35 server: listening
+2019/10/07 12:06:52 server: accepted from 192.168.1.40:36226
+2019/10/07 12:06:52 Certifiaction correct!
+2019/10/07 12:06:52 server: conn: waiting
+2019/10/07 12:06:52 server: conn: read: 454f46
+2019/10/07 12:07:04 server: accepted from 192.168.1.40:36300
+2019/10/07 12:07:04 Certifiaction correct!
+2019/10/07 12:07:04 server: conn: waiting
+2019/10/07 12:07:04 server: conn: read: 2
+2019/10/07 12:07:04 Will download gitlab.pel/pel/docker-repo:php image
+2019/10/07 12:07:40 Running command and waiting for it to finish...
+2019/10/07 12:07:40 Authenticating with existing credentials...
+Login Succeeded
+php: Pulling from pel/docker-repo
+b8f262c62ec6: Already exists
+a98660e7def6: Pulling fs layer
+4d75689ceb37: Pulling fs layer
+639eb0368afa: Pulling fs layer
+2cdbfdb779b1: Pulling fs layer
+e0b637fa9606: Pulling fs layer
+da7333b0ef25: Pulling fs layer
+01d65ff46009: Pulling fs layer
+673e50bed3b9: Pulling fs layer
+bf6c6e34305d: Pulling fs layer
+da7333b0ef25: Waiting
+673e50bed3b9: Waiting
+01d65ff46009: Waiting
+bf6c6e34305d: Waiting
+2cdbfdb779b1: Waiting
+e0b637fa9606: Waiting
+639eb0368afa: Verifying Checksum
+639eb0368afa: Download complete
+a98660e7def6: Download complete
+e0b637fa9606: Verifying Checksum
+e0b637fa9606: Download complete
+a98660e7def6: Pull complete
+2cdbfdb779b1: Verifying Checksum
+2cdbfdb779b1: Download complete
+01d65ff46009: Download complete
+673e50bed3b9: Verifying Checksum
+673e50bed3b9: Download complete
+bf6c6e34305d: Verifying Checksum
+bf6c6e34305d: Download complete
+da7333b0ef25: Verifying Checksum
+da7333b0ef25: Download complete
+4d75689ceb37: Download complete
+4d75689ceb37: Pull complete
+639eb0368afa: Pull complete
+2cdbfdb779b1: Pull complete
+e0b637fa9606: Pull complete
+da7333b0ef25: Pull complete
+01d65ff46009: Pull complete
+673e50bed3b9: Pull complete
+bf6c6e34305d: Pull complete
+Digest: sha256:0454c2797f2e26f6d4f831bdf83841d70bfa27cca364c912ebf877864f8f69d4
+Status: Downloaded newer image for gitlab.pel/pel/docker-repo:php
+gitlab.pel/pel/docker-repo:php
+-----------Success Pull Image-----------
+-----------Success receive Image Sign data-----------
+verify success
+-----------Success Verify Image-----------
+2019/10/07 12:07:40 Success Pull gitlab.pel/pel/docker-repo:php
+2019/10/07 12:07:40 server: conn: write: OK
+2019/10/07 12:07:40 Will download gitlab.pel/pel/docker-repo:mysql image
+2019/10/07 12:08:08 Running command and waiting for it to finish...
+2019/10/07 12:08:08 Authenticating with existing credentials...
+Login Succeeded
+mysql: Pulling from pel/docker-repo
+9fc222b64b0a: Pulling fs layer
+291e388076f0: Pulling fs layer
+d6634415290b: Pulling fs layer
+1f1e7d852ad4: Pulling fs layer
+125fc05f36e0: Pulling fs layer
+2aed16e5b02f: Pulling fs layer
+5fa9342b7235: Pulling fs layer
+6ce062d9949d: Pulling fs layer
+c5a4e96aaa50: Pulling fs layer
+60ca60d28457: Pulling fs layer
+e93ef9cc9bb0: Pulling fs layer
+9bc6d9fa3f72: Pulling fs layer
+1f1e7d852ad4: Waiting
+125fc05f36e0: Waiting
+5fa9342b7235: Waiting
+2aed16e5b02f: Waiting
+e93ef9cc9bb0: Waiting
+6ce062d9949d: Waiting
+9bc6d9fa3f72: Waiting
+60ca60d28457: Waiting
+291e388076f0: Verifying Checksum
+291e388076f0: Download complete
+1f1e7d852ad4: Verifying Checksum
+1f1e7d852ad4: Download complete
+125fc05f36e0: Verifying Checksum
+125fc05f36e0: Download complete
+d6634415290b: Verifying Checksum
+d6634415290b: Download complete
+5fa9342b7235: Verifying Checksum
+5fa9342b7235: Download complete
+6ce062d9949d: Verifying Checksum
+6ce062d9949d: Download complete
+2aed16e5b02f: Verifying Checksum
+2aed16e5b02f: Download complete
+60ca60d28457: Verifying Checksum
+60ca60d28457: Download complete
+e93ef9cc9bb0: Verifying Checksum
+e93ef9cc9bb0: Download complete
+9bc6d9fa3f72: Verifying Checksum
+9fc222b64b0a: Verifying Checksum
+9fc222b64b0a: Download complete
+9fc222b64b0a: Pull complete
+291e388076f0: Pull complete
+d6634415290b: Pull complete
+1f1e7d852ad4: Pull complete
+125fc05f36e0: Pull complete
+2aed16e5b02f: Pull complete
+5fa9342b7235: Pull complete
+6ce062d9949d: Pull complete
+c5a4e96aaa50: Download complete
+c5a4e96aaa50: Pull complete
+60ca60d28457: Pull complete
+e93ef9cc9bb0: Pull complete
+9bc6d9fa3f72: Pull complete
+Digest: sha256:f0392b61ae096aef93b25f4b88206d774d2de1a7e43a7780a59a0c319c540b79
+Status: Downloaded newer image for gitlab.pel/pel/docker-repo:mysql
+gitlab.pel/pel/docker-repo:mysql
+-----------Success Pull Image-----------
+-----------Success receive Image Sign data-----------
+verify success
+-----------Success Verify Image-----------
+2019/10/07 12:08:08 Success Pull gitlab.pel/pel/docker-repo:mysql
+2019/10/07 12:08:08 server: conn: write: OK
