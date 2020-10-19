@@ -303,7 +303,7 @@ func main() {
         log.Fatalf("server: loadkeys: %s", err)
     }
     config := tls.Config{Certificates: []tls.Certificate{cert}}
-    service := "0.0.0.0:5555"
+    service := "0.0.0.0:22222"
 	config.Rand = rand.Reader
 
     listener, err := tls.Listen("tcp4", service, &config)
