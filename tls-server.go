@@ -5,12 +5,14 @@ import (
 		"io"
 		"crypto/tls"
 		"log"
+		"fmt"
 		"net"
 		"crypto/x509"
 		"crypto/rand"
 		"os"
 		"os/exec"
 		"time"
+                "./mysql"
        )
 
 var img_name string
@@ -19,7 +21,7 @@ func filew(path string, data []byte) {
 	fd, _ := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_TRUNC, os.FileMode(0644))
 		defer fd.Close()
 		_,_ = fd.Write([]byte(data))
-		log.Printf("Signed Data save complete!")
+		mysql.Insert("Signed Data save complete!")
 }
 
 func handleClient(conn net.Conn){
@@ -28,38 +30,35 @@ func handleClient(conn net.Conn){
 
 		out, err := exec.Command("docker","login","registry.gitlab.example.com").Output()
 		if err != nil {
-			log.Fatal(err)
+			mysql.Insert("Docker login fail. Check your Docker registry status")
 				return
 		}
-	log.Printf(string(out))
-
-		log.Printf("server: conn: waiting")
-
+		mysql.Insert("Docker login success")
+		log.Printf(string(out))
 		buf := make([]byte, 10)
 		n, err = conn.Read(buf)	
 		if err != nil {
-			log.Printf("server: conn: read: %x", err)
-				_, err = io.WriteString(conn,"server read error")
-				return
+			mysql.Insert("server: conn: read:" +err.Error())
+			_, err = io.WriteString(conn,"server read error")
+			return
 		}
-	log.Printf("server: conn: read: %s", buf)
 
 		str := string(buf[:n])
 		n, _ = strconv.Atoi(str)
+		mysql.Insert("server: conn: read: "+str)
 
 		var ret bool
 
-		time.Sleep(3 * time.Second)
 		if n == 1{
 			ret, err = Push_server(conn)
 				if ret == true{
-					log.Printf("Success Push")
+					mysql.Insert("Complete Push")
 						return
 				}
 		}else if n == 2{
 			ret, err = Pull_server(conn)
 				if ret == true{
-					log.Printf("Success Pull")
+					mysql.Insert("Complete Pull")
 						return
 				}
 		}else{
@@ -72,7 +71,7 @@ func handleClient(conn net.Conn){
 func filer(path string) ([]byte, int64) {
 	fd, err := os.Open(path)
 		if err != nil{
-			log.Printf("File read error")
+			mysql.Insert("Client Signiture File read error")
 				os.Exit(1)
 		}
 	fi, _  := fd.Stat()
@@ -90,143 +89,146 @@ func Pull_server(conn net.Conn) (bool, error) {
 		name := make([]byte, 100)
 
 		n, err := io.WriteString(conn, "OK")
-		log.Printf("server: conn: write: OK")	
+		mysql.Insert("server: conn: write: OK")	
 
 		n, err = conn.Read(name)	
 		if err != nil {
-			log.Printf("server: conn: read: %x", err)
+			mysql.Insert("server: conn: read: "+ err.Error())
 				return false, err 
 		}
-	log.Printf("server: conn: read: %s", name)
-		img_name = string(name[:n])
+	
+	img_name = string(name[:n])
+	mysql.Insert("server: conn: read: "+ img_name)
 
 		ret, err := vul_detect()
 		if ret == false{
 			_, err = io.WriteString(conn, "vulnerability detection alot. Download fail")
+			mysql.Insert("vulnerability detection alot. Download fail")
 				return ret, err
 		}else {
 			time.Sleep(5 * time.Second)
 				_, err = io.WriteString(conn, "OK")
+			mysql.Insert("pass vulnerability detection")
 		}
 
 	n, err = conn.Read(buf)	
 		if err != nil {
-			log.Printf("server: conn: read: %x", err)
+			mysql.Insert("server: conn: read: "+ err.Error())
 				return false, err 
 		}
 
-	if string(buf[:n]) == "OK"{
-		log.Printf("server: conn: read: %s", buf)
-}else{
-	log.Printf("server: conn: read: %s", buf)
+ 	result := string(buf[:n])
+	if result == "OK"{
+		mysql.Insert("server: conn: read: " + result)
+	}else{
+		mysql.Insert("server: conn: read: "+result)
 		return false, nil
-}
+	}
 
 	message, num := filer(img_name+"-resign.gob")
 size := strconv.FormatInt(num,10)
 
 _, err = io.WriteString(conn,size)
 	if err != nil {
-		log.Fatalf("client: write: %s", err)
+		mysql.Insert("client: write: "+ err.Error())
 	}
-log.Printf("client: conn: write: %s", size)
 
 _, err = conn.Write(message)
 	if err != nil {
-		log.Printf("client: conn: fail send file: %s", img_name+"-resign.gob")
+		mysql.Insert("client: conn: fail send file: "+ img_name+"-resign.gob")
 			return false, err
 	}
-log.Printf("client: conn: send file: %s", img_name+"-resign.gob")
+	mysql.Insert("client: conn: send file: "+ img_name+"-resign.gob")
 
 n, err = conn.Read(buf)	
 	if string(buf[:n]) == "Send Success"{
-	log.Printf("server: conn: read: %s", buf)
-	return true, nil
+		return true, nil
 	}else{
-		log.Printf("server: conn: read: %s", buf)
-			return false, nil
+		return false, nil
 	}
 }
 
 func Push_server(conn net.Conn) (bool, error) {
-	defer conn.Close()
+		defer conn.Close()
 		buf := make([]byte, 100)
 		name := make([]byte, 100)
 
 		n, err := io.WriteString(conn, "OK")
-		log.Printf("server: conn: write: OK")	
+		mysql.Insert("server: conn: write: OK")	
 
 		time.Sleep(5 * time.Second)
 
 		n, err = conn.Read(name)	
 		if err != nil {
-			log.Printf("server: conn: read: %x", err)
-				return false, err 
+			mysql.Insert("server: conn: read: "+ err.Error())
+			return false, err 
 		}
-	log.Printf("server: conn: read: %s", name)
 		img_name = string(name[:n])
+		mysql.Insert("server: conn: read: "+ img_name)
 
 		out, err := exec.Command("docker","pull",img_name).Output()
 		log.Printf("Running command and waiting for it to finish...")
+		log.Printf("Uploading Image to GitLab server...")
 		if err != nil {
 			log.Fatal(err)
 				return false, err
 		}
-	log.Printf(string(out))
+		log.Printf(string(out))
 
-		time.Sleep(5 * time.Second)
 
 		n, err = io.WriteString(conn, "OK")
-		log.Printf("server: conn: write: OK")	
+		mysql.Insert("server: conn: write: Push Image checking.....")	
 
 		n, err = conn.Read(buf)	
 		if err != nil {
-			log.Printf("server: conn: read: %x", err)
+			mysql.Insert("server: conn: read: "+ err.Error())
 				return false, err 
 		}
-	log.Printf("server: conn: read: %s", buf)
 
 		str := string(buf[:n])
 		size, _ := strconv.Atoi(str)
-		log.Printf("server: conn: download %d size",size)
+		mysql.Insert("server: conn: download "+str+" size")
 
-		time.Sleep(5 * time.Second)
 		_, err = io.WriteString(conn, "OK")
-		log.Printf("server: conn: write: OK")	
 
 		message := make([]byte, size)
 
 		num := size / 1180 + 1
-		log.Printf("Ready to receive %d sign data",num)
 		message = Read_data(num,conn,size)
+		mysql.Insert("Save signature file complete")
 
 		filew(img_name+"-sign.gob",message)
 
 		ret, err := push_verify()
 		if ret == false{
 			_, err = io.WriteString(conn, "verify fail")
+			mysql.Insert("verify fail")
 				return ret, err
 		}else{
+			mysql.Insert("verify success")
 			time.Sleep(5 * time.Second)
 				ret, err = vul_detect()
 				if ret == false{
 					_, err = io.WriteString(conn, "vulnerability detection alot. Upload fail")
+					mysql.Insert("vulnerability detection alot. Upload fail")
 						return ret, err
 				}else{
 					time.Sleep(5 * time.Second)
+						mysql.Insert("pass vulnerability detection score")
 						ret, err = resign_script()
 						if ret == false{
 							_, err = io.WriteString(conn, "resign fail")
+							mysql.Insert("resign fail")
 								return ret, err
 						}else{
 							time.Sleep(5 * time.Second)
 								_, err = io.WriteString(conn,"OK")
 								if err != nil {
-									log.Printf("server: conn: read: %x", err)
+									mysql.Insert("server: conn: read: "+ err.Error())
 										return false, err
 								}else{
-									log.Printf("server: conn: write: OK")
-										log.Println("server: conn: closed")
+									mysql.Insert("server: conn: write: OK")	
+									mysql.Insert("server: conn: closed")	
 								}
 						}
 				}
@@ -235,41 +237,39 @@ func Push_server(conn net.Conn) (bool, error) {
 }
 
 func push_verify() (bool, error){
-	log.Println("server: verify start")
-		log.Printf("Running command and waiting for it to finish...")
+	mysql.Insert("server: verify start")
+	mysql.Insert("Running command and waiting for it to finish...")
 		out, err := exec.Command("./layer-verify",img_name).Output()
 		if err != nil {
-			_, _ = exec.Command("./delete.sh",img_name).Output()
-				return false, err
+			mysql.Insert("Docker layers verify fail")
+			return false, err
 		}
-	log.Printf(string(out))
+		log.Printf(string(out))
 		return true, nil 
 }
 
 func vul_detect() (bool, error){
-	log.Println("server: Image Vulnerability detection start")
-		log.Printf("Running command and waiting for it to finish...")
+		mysql.Insert("server: Image Vulnerability detection start")
 		out, err := exec.Command("./vul_detect.sh",img_name).Output()
 		if err != nil {
 			return false, err
 		}
-	log.Printf(string(out))
+		log.Printf(string(out))
 
 		if len(string(out)) > 130 {
 			return false, nil
 		}
-	return true, nil
+		return true, nil
 }
 
 func resign_script() (bool, error){
-	log.Println("server: resign start")
-		log.Printf("Running command and waiting for it to finish...")
+		mysql.Insert("server: resign start")
 		out, err := exec.Command("./layer-resign",img_name).Output()
 		if err != nil {
 			_, _ = exec.Command("./delete.sh",img_name).Output()
 				return false, err
 		}
-	log.Printf(string(out))
+		log.Printf(string(out))
 		return true, nil 
 }
 
@@ -300,7 +300,7 @@ func main() {
 
 		cert, err := tls.LoadX509KeyPair("./repo/repo.crt", "./repo/repo.key")
 		if err != nil {
-			log.Fatalf("server: loadkeys: %s", err)
+			mysql.Insert("server: loadkeys: " +err.Error())
 		}
 config := tls.Config{Certificates: []tls.Certificate{cert}}
 service := "0.0.0.0:50000"
@@ -308,24 +308,26 @@ service := "0.0.0.0:50000"
 
 		 listener, err := tls.Listen("tcp4", service, &config)
 		 if err != nil {
-			 log.Fatalf("server: listen: %s", err)
+			mysql.Insert("server: listen: " +err.Error())
 		 }
-	 log.Print("server: listening")
+		 mysql.Insert("server: listening")
 		 for {
 			 conn, err := listener.Accept()
-				 if err != nil {
-					 log.Printf("server: accept: %s", err)
-						 break
+			 if err != nil {
+					 mysql.Insert("server: accept: %s"+ err.Error())
+					break
 				 }
 			 defer conn.Close()
-				 log.Printf("server: accepted from %s", conn.RemoteAddr())
-				 tlscon, ok := conn.(*tls.Conn)
+				 s := fmt.Sprintf("server: accepted from %s", conn.RemoteAddr())
+				mysql.Insert(s) 
+				tlscon, ok := conn.(*tls.Conn)
 				 if ok {
-					 log.Printf("Certifiaction correct!\n")
-						 log.Printf("hihi\n")
+					 mysql.Insert("Certifiaction correct!\n")
 						 state := tlscon.ConnectionState()
 						 for _, v := range state.PeerCertificates {
-							 log.Print(x509.MarshalPKIXPublicKey(v.PublicKey))
+							 tr, _ := x509.MarshalPKIXPublicKey(v.PublicKey)
+							 str := string(tr)
+							 mysql.Insert(str)
 						 }
 				 }
 			 go handleClient(conn)

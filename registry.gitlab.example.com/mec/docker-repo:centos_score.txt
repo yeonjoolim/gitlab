@@ -1,2 +1,2 @@
-It's a authorized docker image
+It is a authorized docker image
 7.95

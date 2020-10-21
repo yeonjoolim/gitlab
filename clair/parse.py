@@ -49,7 +49,7 @@ severity_value = unknown_count + negligible_count + low_count + medium_count + h
 if severity_value > 150:
 	print "Delete your a docker image"
 else:
-	print "It's a authorized docker image"
+	print "It is a authorized docker image"
 
 print(severity_value)
 
