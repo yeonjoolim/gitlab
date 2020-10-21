@@ -1,0 +1,14 @@
+clair:
+ port: 30060
+ healthPort: 30061
+ request:
+ host: HOST
+ headers:
+ myHeader: header
+ uri: http://129.254.170.216
+ report:
+ path: ./reports
+ format: html
+docker:
+  insecure-registries:
+    — “my-own-registry:5000”

@@ -1,0 +1,10 @@
+
+Image: docker.io/tnsghd22/dockertest:latest
+ 
+ Unknown: 37
+ Negligible: 46
+ Low: 26
+ Medium: 0
+ High: 0
+ Critical: 0
+ Defcon1: 0

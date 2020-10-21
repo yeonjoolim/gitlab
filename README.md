@@ -1,1 +1,0 @@
-# mec gitlab code

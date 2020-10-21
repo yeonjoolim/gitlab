@@ -46,7 +46,7 @@ func server_verify(keypath string, strl map[string]string) bool{
 
 		Pubkey = Getpubcrt(keypath)
 		
-		veri := false
+		veri := true
         ctr := 0
 		i := 0
 	
@@ -278,5 +278,3 @@ func Verify(pub *rsa.PublicKey, hash []byte, sig []byte) bool{
                 return true
     }
 }
-
-

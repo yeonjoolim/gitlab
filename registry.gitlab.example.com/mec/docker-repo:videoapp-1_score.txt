@@ -1,2 +1,0 @@
-It's a authorized docker image
-126.0
