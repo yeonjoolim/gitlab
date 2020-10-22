@@ -1,9 +1,2 @@
-
- 
- Unknown: 0
- Negligible: 0
- Low: 49
- Medium: 139
- High: 120
- Critical: 14
- Defcon1: 0
+client quit unexpectedly
+2020-10-22 10:36:17.848259 C | cmd: pushing image "registry.gitlab.example.com/mec/docker-repo:mysql": receiving http error: 400

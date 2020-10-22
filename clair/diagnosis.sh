@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd ./clair
-clairctl-linux-amd64 --config=clairctl.yml analyze $1>result.txt
-clairctl-linux-amd64 --config=clairctl.yml report $1
+clairctl-linux-amd64 --config=clairctl.yml analyze -l $1>result.txt
+clairctl-linux-amd64 --config=clairctl.yml report -l $1
 python filter.py
 python parse.py>score.txt
 file="score.txt"

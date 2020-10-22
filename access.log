@@ -1,0 +1,27 @@
+2020/10/22 10:28:08 Authenticating with existing credentials...
+Login Succeeded
+2020/10/22 10:28:13 Running command and waiting for it to finish...
+2020/10/22 10:28:13 Uploading Image to GitLab server...
+2020/10/22 10:28:13 mysql: Pulling from mec/docker-repo
+Digest: sha256:77b7e09c906615c1bb59b2e9d7703f728b1186a5a70e547ce2f1079ef4c1c5ca
+Status: Image is up to date for registry.gitlab.example.com/mec/docker-repo:mysql
+registry.gitlab.example.com/mec/docker-repo:mysql
+2020/10/22 10:28:13 server: conn: read  1180 size
+2020/10/22 10:28:13 server: conn: read  1180 size
+2020/10/22 10:28:13 server: conn: read  1180 size
+2020/10/22 10:28:13 server: conn: read  1180 size
+2020/10/22 10:28:13 server: conn: read  24 size
+2020/10/22 10:28:13 server: conn: read  1180 size
+2020/10/22 10:28:21 verify success
+2020/10/22 10:28:46 2020-10-22 10:28:46.454855 E | clair: analysing layer [35b483bf3344] 1/12: receiving http error: 404
+2020-10-22 10:28:46.458931 E | clair: analysing layer [972f4012c259] 2/12: receiving http error: 404
+2020-10-22 10:28:46.462908 E | clair: analysing layer [13ae1354a08a] 3/12: receiving http error: 404
+2020-10-22 10:28:46.466598 E | clair: analysing layer [526833d78ea5] 4/12: receiving http error: 404
+2020-10-22 10:28:46.470296 E | clair: analysing layer [5eb0610dfc1a] 5/12: receiving http error: 404
+2020-10-22 10:28:46.473767 E | clair: analysing layer [339702898b05] 6/12: receiving http error: 404
+2020-10-22 10:28:46.477218 E | clair: analysing layer [95e21b7f0a46] 7/12: receiving http error: 404
+2020-10-22 10:28:46.480730 E | clair: analysing layer [3ba287c0925c] 8/12: receiving http error: 404
+2020-10-22 10:28:46.484216 E | clair: analysing layer [59c2476d4d78] 9/12: receiving http error: 404
+2020-10-22 10:28:46.487674 E | clair: analysing layer [a6750f083293] 10/12: receiving http error: 404
+2020-10-22 10:28:46.493287 E | clair: analysing layer [e5437ec59f24] 11/12: receiving http error: 404
+2020-10-22 10:28:46.509361 E | clair: analysing layer [60815aae6818] 12/12: receiving http error: 404

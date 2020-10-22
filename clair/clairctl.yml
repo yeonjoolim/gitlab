@@ -5,7 +5,7 @@ clair:
  host: HOST
  headers:
  myHeader: header
- uri: http://129.254.170.216
+ uri: http://129.254.170.217
  report:
  path: ./reports
  format: html

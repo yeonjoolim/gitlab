@@ -18,7 +18,7 @@ Insert(log)
 }
 func create(name string) {
 
-   db, err := sql.Open("mysql", "root:password@tcp(129.254.170.5:30155)/")
+   db, err := sql.Open("mysql", "root:password@tcp(129.254.170.215:31925)/")
    if err != nil {
  	log.Fatal(err)
    }
@@ -42,7 +42,7 @@ func create(name string) {
 
 func Insert(str string){
 
-   db, err := sql.Open("mysql", "root:password@tcp(129.254.170.5:30155)/mec_sju")
+   db, err := sql.Open("mysql", "root:password@tcp(129.254.170.215:31925)/mec_sju")
     if err != nil {
  	log.Fatal(err)
    }
